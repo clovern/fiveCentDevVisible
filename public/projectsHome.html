@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
+    <link href = "./css/index.css" rel = "stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+    <script id = "projectsTemplate" type = "text/x-handlebars-template">
+        {{#each projectList}}
+        <div class="project linkSource" data-link="{{this.sourceCodeLink}}" key={{this.key}}>
+          <section>
+            <div class = "details">
+              <h2 class="name">{{this.name}}</h2>
+              <h3 class="dateCompleted">{{this.dateCompleted}}</h3>
+              <h3 class="languages">Languages Used: {{this.languagesUsed}}</h3>
+              <p class="description">{{this.description}}</p>
+            </div>
+            <div class="imageBlock">
+              <img class="image" src={{this.image}} alt= {{this.name}}>
+            </div>
+          </section>
+        </div>
+      {{/each}}
+    </script>
+</head>
+<header>
+  <nav class="mainNav">
+      <ul>
+          <li><a href="./home.html">Home</a></li>
+          <li><a href="./projectsHome.html">Projects</a></li>
+          <li><a href="./aboutMe.html">About Me</a></li>
+          <li><a href="./resume.html">Resume</a></li>
+      </ul>
+  </nav>
+</header>
+<body class="mainBody projectsBody">
+    <h1 class="mainTitle">PROJECTS</h1>
+    <div id="projectDisplay">
+
+    </div>
+    <script src="./resources/javascript/main.js" type="text/javascript"></script>
+</body>
+<script src="./resources/javascript/onClick.js" type="text/javascript"></script>
+</html>

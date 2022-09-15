@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href = "./css/index.css" rel = "stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@1,200&display=swap" rel="stylesheet">
+    <title>wildChefMadness</title>
+</head>
+<header>
+    <nav class="mainNav">
+        <ul>
+            <li><a href="./projectsHome.html">Projects</a></li>
+            <li><a href="./aboutMe.html">About Me</a></li>
+            <li><a href="./home.html">Home</a></li>
+        </ul>
+    </nav>
+</header>
+<script type="text/javascript" src="brython.js"></script>
+<script type="text/javascript" src="brython_stdlib.js"></script>
+<body class="displayBody" onload="brython(1)">
+    <div class="projectGameDisplay">
+        <div class="content sameSize">
+            <p id="scenarios"></p> 
+            <div>
+            <button class="wildChefButton" id="btnA">Yes</button> 
+            <button class="wildChefButton" id="btnB">No</button>
+            <h1 id="viewLink"></h1>
+            </div>
+        </div>
+    </div>
+    <script type="text/python">
+    from browser import document, alert, console
+    currentNode = None
+    def aClickHandler(e):
+        if currentNode == None:
+            global currentNode
+            currentNode = root
+        else:
+            global currentNode
+            currentNode = currentNode.left_child
+        document["scenarios"].html = currentNode.value
+        if (currentNode.left_choice == None) and (currentNode.right_choice == None):
+            playAgain()
+            return
+        document.getElementById("btnA").innerHTML = currentNode.left_choice;
+        document.getElementById("btnB").innerHTML = currentNode.right_choice;
+    
+    def bClickHandler(e):
+        if currentNode == None:
+            document["scenarios"].html = "Alright, have a great day!"
+            document.getElementById("btnA").style.display = "none";
+            document.getElementById("btnB").style.display = "none";
+        else:
+            global currentNode
+            currentNode = currentNode.right_child
+        document["scenarios"].html = currentNode.value
+        if (currentNode.left_choice == None) and (currentNode.right_choice == None):
+            playAgain()
+            return
+        document.getElementById("btnA").innerHTML = currentNode.left_choice;
+        document.getElementById("btnB").innerHTML = currentNode.right_choice;
+
+    def playAgain():
+        document.getElementById("btnA").innerHTML = "Play again";
+        document.getElementById("btnB").innerHTML = "Stop Playing";
+        global currentNode
+        currentNode = None
+    
+    document['btnA'].bind("click", aClickHandler)
+    document['btnB'].bind("click", bClickHandler)
+    class TreeNode:
+        def __init__(self, value):
+            self.value = value
+            self.left_child = None
+            self.right_child = None
+            self.left_choice = None
+            self.right_choice = None
+        
+        def add_left_child(self, child_node):
+            self.left_child = child_node
+        def add_right_child(self, child_node):
+            self.right_child = child_node
+        
+    options = []
+    button_options = []
+
+    greeting = """Hello, and welcome to Wild Chef Madness, the Game Show!<br>Will you be able to make a successful meal, or will you walk away in disgrace?<br><br>Would you like to see if you have what it takes to become LE CHEF EXTRAORDINAIRE???????????"""
+
+    options.append(TreeNode("""We are so glad to have you join us on Wild Chef Madness! Wild Chef Madness is a partners only tournament. \n\n\
+    What's that? You didn't bring a partner???\
+    That's ok... We can provide a partner for you.\n\
+    (**Shouts back to the dishwashing crew: \"Jerry, Jernigan, now is your chance!\"**).\n\
+    Here we go. Two of our finest chefs...\n\
+    **Jerry picks up a slice of cheese from the counter and sticks it up his nose**\n\
+    **Jernigan's pants fall down as he murmurs, \"I knew I picked the wrong day to wear pants!\"\n\n\
+    So, who will it be? Jerry or Jernigan?"""))
+    button_options.append(["Jerry", "Jernigan"])
+
+    lvl1general = """\n\nNow, for the meal options, you can prepare for our celebrity judges today... grilled cheese a la fance fance or the meat bucket.\n Which will you choose??"""
+    options.append(TreeNode("Good choice. Jerry the quesadilla wrangler, jello mangler, stir fry strangler - the one and only.\n His special ability is chopping his vegetables at the speed of light. But his main downfall is distraction. " + str(lvl1general)))
+    button_options.append(["Grilled Cheese", "Meat Bucket"])
+    options.append(TreeNode("Jernigan eh? Some call him a bland man, some call him a wild man... No one really knows what secrets Jernigan holds. Perhaps today will be our day to find out! " + str(lvl1general)))
+    button_options.append(["Grilled Cheese", "Meat Bucket"])
+    #------------------------------------------------------------
+
+    options.append(TreeNode("""Ah, the grilled cheese. A delicious classic. But Jerry seems to have a frowning face. Where will his vegetable chopping expertise come in on a meal like this? This was the fast track to fame he had been waiting for! And yet, with his quesadilla history, perhaps the vegetable-less grilled cheese will unlock talents even he didn't know he was capable of, making him a celebrity of the grilled cheese world.\n\n What should you do? Will you give Jerry free rein to give the grilled cheese a touch of vegetable flare, or will you stick to the safe and simple classic cheese and bread mastery you know so well?"""))
+    button_options.append(["Veggie Addition", "Classic Grilled Cheese"])
+    options.append(TreeNode("The meat bucket. No one is quite sure what it is, but Jerry comes in quick to remind you that his strangling expertise is not reserved for only stir fry. Oh yes, he is a master hunter as well, hunting only by strangling. Before you know it, Jerry has run out the door, yelling something about grabbing you some fresh meat.\n Do you Run after him and try to get back a partner for the round, or continue the challenge without him - you weren't quite sure about Jerry as a partner anyway, and this will give you the chance to show off your skill."))
+    button_options.append(["Follow Jerry", "Continue without Jerry"])
+    options.append(TreeNode("Grilled cheese, yum! You can't wait to get started, but evidently neither can Jernigan. You thought you would be taking the lead on this one, but he already has taken out some cheese and cream (what will he do with the cream??) and is excitedly telling you how he has been raising cows since he was 3. \nYou were excited to make the grilled cheese, but perhaps you should let your man Jerny take care of that, and focus on a side dish of some tomato basil soup yourself. \n\nWhat will you decide? Should you let Jernigan make the grilled cheese or demote him to side dish and tell him you will be making the grilled cheese?"))
+    button_options.append(["Let Jernigan make grilled cheese", "Demote Jernigan to side dish"])
+    options.append(TreeNode("Ah, the meat bucket. The Bucket of many wonders. An exciting prospect. And yet you realize that you actually have no idea what goes in to a meat bucket.\n You send Jernigan into the pantry and he comes back with frogs and something that vaguely resembles a housecat. \n\nYou realize too late the meat varieties he has chosen, and the food selection time is closed. Which one do you use?"))
+    button_options.append(["frogs", "possible housecat"])
+    #-----------------------------------------------------------
+
+    options.append(TreeNode("The veggie option! Jerry is beyond excited! He grabs some tomatoes, cucumbers, and various green looking leafy things, and he tells you to start whipping up an aoili. Jerry is chopping so fast that before you know it. He has bowls and bowls of vegetables. He just can't stop! \n\nOne of the other teams, who has been having less success with their choice (the meat bucket) notices your excess of vegetables and asks if they can use some. Do you share some vegetables with them or not?"))
+    button_options.append(["Share veggies", "Don't share"])
+    options.append(TreeNode("No vegetables it is. You can't go wrong with the classic grilled cheese, but Jerry is so devastated that he won't be able to cut vegetables, his brain seems to have shut down. He is just staring at the wall saying \"veggie veggie veggie veggie\", and he doesn't seem to hear anything you are saying to him. What's more, he's standing right in front of the cupboard with all the pans, and despite your best efforts, you can't seem to move him! \n\nYou've determined that you definitely will be making this grilled cheese on your own now, but where to cook it? The only two cooking mechanisms left are the microwave and the toaster oven, but the toaster oven only works on the broil setting currently. Which do you choose?"))
+    button_options.append(["microwave", "toaster oven"])
+    options.append(TreeNode("You end up catching up with Jerry and collecting him, but realize when you get back that the time you were gone was your team's \"fridge and freezer period,\" where you get to grab any needed to supplies from the freezer and fridge. You get back in time for pantry time, but all you are able to find in terms of meat-like substance is tofu - hardly something that you think the judges will appreciate in a meat bucket. However, it is possibly the closest thing to meat you can find in there, so it is either that or make an entirely new meal.\n\nYou aren't sure how the judges will take it if you go rogue on your meal choice, but it might be worth a shot. What do you decide to do? Should you try for a tofu meat bucket, or choose an off-menu meal option and hope for the best with the judges?"))
+    button_options.append(["tofu meat bucket", "off-menu meal"])
+    options.append(TreeNode("You end up letting Jerry go. After all, this will give you the opportunity to showcase your personal cooking abilities without having to coordinate with a stranger.\n You aren't sure how much you should trust Jerry, though. He did say he was going to get meat, so you could start working on a side dish (your real specialty) and let him focus on the meat when he comes back. Honestly, though, this Jerry character seems like a wild man, though, with all his talk of strangling and his sprinting outside. You aren't really sure he will be coming back.\n\n Do you decide to trust Jerry, and work on the side dish instead, or do you grab some meat and get to work on that, just in case Jerry doesn't show?"))
+    button_options.append(["side dish", "meat portion"])
+    options.append(TreeNode("You decide to let Jernigan take charge on the grilled cheese, and feel confident at first ..... Next thing you know, though, you look over, you see Jernigan's grilled cheese.... He has put the cheese the outside, and the bread in the center! And he seems to have soaked the bread in the cream, which was you saw him vigorously churning earlier.\n\n\"Cheesy bread!\", he announces proudly, as half of the bread dissolves on the plate. \"This maniac!\" you think to yourself. And yet there are only 2 minutes left on the counter. \n\nDo you try to make a new grilled cheese in the 2 minutes left, and hope that it will be ready in time, or do you throw the grilled cheese at the judges? (There is no way you are winning now, so you might as well go out with a bang! After sticking you with Jernigan, they deserve it!)"))
+    button_options.append(["Make new", "Throw"])
+    options.append(TreeNode("You take the lead on the grilled cheese yourself, while Jernigan makes the soup. You are about to put a nice pairing of cheddar and gouda on your grilled cheese, when Jerny runs over and starts insisting that you use pepper jack.\n\n Hmmm... you aren't so sure about this idea, but you've already deprived the man of making the grilled cheese, it feels a little cruel to deprive him of his cheese choice as well. What kind of cheese will you use?"))
+    button_options.append(["Cheddar & Gouda", "Pepper Jack"])
+    options.append(TreeNode("You decide to go with the frogs, and frog legs immediately come to mind. You start to make them but realize you actually only have enough frogs to give the judges 3 pairs of legs each, and these are pretty small frogs! That will certainly not fill the whole bucket! \n\nDo you stick with just serving the legs and hope they will take is as a \"gourmet\" style, or do you decide to serve the whole frog instead to get more meat total?"))
+    button_options.append(["Just legs", "Whole frog"])
+    options.append(TreeNode("You decide to go with the mystery meat which might be housecat. You try to get more information out of Jernigan about what it is but just get some mumbles from him.\n\nUnsure of how the housecat might turn out, you think of a novel idea. What about cookies?! You could see cookies being served with a meat bucket of chicken wings or the like, so why not with this one? And who doesn't like cookies? Still, you aren't sure how the judges might take having a side of cookies. After all, this is a cooking competition, not a baking competition. \n\nWhat do you think?"))
+    button_options.append(["Just serve Meat Bucket", "Serve Side of Cookies"])
+
+    #--------------------------------------------------------------
+
+    options.append(TreeNode("What a kind chef! You have decided to share the vegetables with some chefs in need.\n Unfortunately, though, those other chefs don't seem to have the same kind spirit as you. They steal ALL the tomatoes and cucumber for their meat bucket!\n\nAll you are left with now is the bowl of unknown leafy greenery. It's almost time for judging, and Jerry had cut up all of the vegetables you had, so there is no opportunity for him to cut more. Do you sabotage this selfish enemy team by sneakily filling their meat bucket with water, or do you just let it pass and curse them silently?"))
+    button_options.append(["SABOTAGE!", "Let it pass"])
+    options.append(TreeNode("No help to the opposing team? That's Cut-throat, but it is a competition after all! However, you are wondering about the setup of your vegetables now. Jerry cut up the cucumbers, tomatoes, and leafy mystery greens because they were his favorite to cut up, but he didn't actually consider how well they would coordinate on the grilled cheese, and you are not sure that you wan't to put them all on.\n\nJerry would be devastated if you didn't use all of his vegetables, though, so you have to do something with them regardless. You consider possibly making a cucumber and tomato salad to put as a side to the grilled cheese, and just putting the mystery greens and the aoili you made on the grilled cheese. What will you decide to do?"))
+    button_options.append(["All on grilled cheese", "Side salad"])
+    options.append(TreeNode("""The microwave, huh? A difficult one to make a grilled cheese in, but perhaps your best choice given the circumstances.\n 
+    Jerry mumbles out that perhaps a \"microwave grilled cheese bread pudding\" could be a good microwave option. Thanks a lot, Jerry, \
+    we wouldn't need a microwave option at all if you would move away from the pans instead of offering up suggestions! You have made \
+    bread pudding before, though, so at least you know a general recipe. \n\nWhat do you decide to do - make a \"grilled cheese \
+    bread pudding\", or make a classic grilled cheese?"""))
+    button_options.append(["Grilled cheese bread pudding", "Classic Grilled Cheese"])
+    options.append(TreeNode("The toaster oven. Probably a better option, a grilled cheese in the microwave sounds like a ticket to floppy sandwich town.\n\n You notice that Jerry has started marching in place a little now, though, and getting some crazy eyes. You aren't really sure what's about to happen, but in any case, he looks like he might soon move for long enough for you to get to the pans behind him. You only have a few minutes left, though, and you aren't sure how long it might take for him to move. \n\nDo you stick with the broil-only toaster oven, or do you decide to wait it out for the pots and pans after all?"))
+    button_options.append(["Toaster Oven", "Wait"])
+    options.append(TreeNode("So, you have decided to go with the Tofu meat option. Now it is decision time on how to cook it. Although you are pretty sure the classic meat bucket would have only meat in it, you aren't sure how well that would translate to tofu. I mean, does anyone want a whole bucket of just tofu?\n\n You are debating between two options - trying to stick with the true nature of the meat bucket at least a little bit by only putting a spicy bbq glazed tofu in there, or making it into more of tofu stir fry bucket. Which will you choose?"))
+    button_options.append(["BBQ tofu only", "Stir fry tofu bucket"])
+    options.append(TreeNode("""A bold move, breaking the rules of the cooking show to go with a different meal. You just hope that you choice of meal will be delicious enough that they overlook it not being on the original menu.\n\n You have two vegetarian meals that you can think of to make with the pantry resources - barbeque lentil meatballs or your famous spicy bean chili. Which of the two will you choose?"""))
+    button_options.append(["BBQ meatballs", "Bean chili"])
+    options.append(TreeNode("You make your side dish - fried brussel sprouts with parmesan and a mustard aoili - and it is going excellent. You can\'t wait to show the judges what you have made. You are just starting to get nervous and think that Jerry might not be coming back, when, with two minutes to spare, he runs in and tells you to come outside. \n\nOutside??? You are just plating your meal, and you might not come back in time to serve the judges anything if you run outside now. Should you go outside with Jerry as he asks or yell at him to bring whatever he has inside - and fast! - for the judges?"))              
+    button_options.append(["Go Outside", "Yell at Jerry to come inside"])
+    options.append(TreeNode("You were a little nervous that Jerry wouldn't come back in time, so you decide to grab some meat of your own. Do you decide to go with chicken or beef?"))
+    button_options.append(["Chicken", "Beef"])
+    options.append(TreeNode("You tried to make a new grilled cheese, but it took you the entire 2 minutes just to find out where you put the cheese. By the time you find it, the time is up and Jernigan has carried two slices of bread over to the judges.\n\n Suprisingly, the judges have been on the keto diet for weeks and all they have been craving is bread, so they don't give you last place. You get third place, (out of 4 teams) and no prize money, but at least you left with your dignity (sort of)."))
+    button_options.append([None, None])
+    options.append(TreeNode("You go for the grilled cheese toss at the judges - fortunately you have been practicing your throws!\n\n The grilled cheese sticks to their faces and slides down satisfyingly slow. You get kicked out of the show, but the video goes viral. You and Jernigan get $2,000,000 each in income related to the viral video - more than you would have made from winning the show! Jernigan spends all of his money on more cows."))
+    button_options.append([None, None])
+    options.append(TreeNode("So you have gone with the classic cheddar and gouda. You think everything is perfect, until you look over and see Jernigan\'s soup The base of it looks pretty good, but he is now adding in quite a bit of his \"secret ingredient\"... canned tuna\n\n He insists this is delicious in a roasted red pepper soup, but you can't possibly see that being true. He has already started putting it in, though. Do you allow him to serve the soup with the canned tuna or do you quickly throw it away before it can be served to the judges? Type A to allow the tuna, or type B to throw his soup away."))
+    button_options.append(["Allow tuna", "Throw away"])
+    options.append(TreeNode("The pepper jack. Maybe not your obvious grilled cheese choice, but Jernigan can't seem to stop smiling now.\n\n Jernigan now feels that he has found a friend in you, and he feels cofident this grilled cheese will win. He wants to make a bet. The bet is this: If you win first place, you have to give Jernigan half of your winnings. But if you get second or below, Jernigan will pay you $20,000. Will you take the bet?"))
+    button_options.append(["Take bet", "Turn down"])
+    options.append(TreeNode("You decide to go with just the frog legs, and Jernigan announces that he has an excellent idea. He runs in to the cabinet before he can tell you what is is.\n\n With one minute left in the clock, you are nervous he might not get back in time, and even if he does you are worried about what his idea might be. Do you serve the frog legs to the judges without waiting for him, or do you wait and hope he will make it in time?"))
+    button_options.append(["Wait", "Serve it without Jernigan"])
+    options.append(TreeNode("You decide to go with the whole frogs, and serve it to the judges. The judges ask whose idea the frogs were. It was both you and Jernigan's idea, but he immediately starts taking the sole credit for them.\n\nStill unsure of what the judges think of the frogs, you aren't sure if you want to willingly admit to being a co-contributor to the idea, or just let Jernigan take the credit - good or bad. What will you do?"))
+    button_options.append(["Admit contributing", "Give Jernigan credit"])
+    options.append(TreeNode("You decide to play it safe and not serve cookies with the bucket. Now, you are unsure about what to name the meal. You have to come up with a personalized name for it, but you are embarassed to admit that you aren't sure what kind of meat it is. Do you forego naming it or call it the Meaty Mystery Bucket?"))
+    button_options.append(["Don't name", "Mystery Meat Bucket"])
+    options.append(TreeNode("You decide to serve cookies with the bucket, but aren't sure what kind to go with. Do you serve the classic chocolate chip, or go with a fancier-sounding white chocolate macadamia and cranberry cookie?"))
+    button_options.append(["Chocolate chip", "WC Macadamia Cranberry"])
+    #----------------------------------------------------------
+
+    options.append(TreeNode("Sabotage! I didn't think you had it in you chef, the pressure of the competition has gotten to you!\n Unfortunately, the judges see you sabotaging the other team, and you are disqualified from the show. They say they will blacklist your name from any cooking show ever - you will never cook again!\n\nWhat's more, it turns out that the judges actually loved the water in the opposing team's meat bucket. Somehow, in combination with the vegetables and meats in the bucket, it seems to have made a nice broth for a soup.\nThe meat bucket team gets second place, and you walk away in disgrace. I would say better luck next time .... but it sounds like you will never have a chance again."))
+    options.append(TreeNode("Ah, so you have decided to let their slight pass. A good choice - you have to deal with curveballs in the kitchen sometimes, and this will prove that you can.\n\nThe judges saw how you had to deal with the selfish other team so you go are already in the judges good graces. What's more, they love your grilled cheese! Turns out the greens and aoili were the perfect balance of freshness and cheesiness, so having the other vegetables stolen actually helped you in the end!\n\nCongratulations chef, you have won Wild Chef Madness! You win a prize of $1,000,000!"))
+
+    options.append(TreeNode("Oh man, it seems you have made a bad decision. Jerry gets overexcited about his vegetables and piles the vegetables on. There are so many, you can barely even see the cheese! It just looks like a tomato cucumber tower!\n\nThe judges can't figure out how to eat it, and vegetables keep falling all over their plates. By the times they get to eating, the inside of their bread has become kind of soggy from all the tomatoes.\n\nThey appreciate the effort you put in, and one of the other teams has messed up more than you (they didn't put any meat in their meat bucket), and so you don't get last place, but you end up getting 3rd out of the 4 competing teams. Oh well, at least you had a fun cooking experience!"))
+    options.append(TreeNode("The judges love your grilled cheese with the cucumber and tomato salad. They can't stop raving about the contrast between the freshness of the vegetables and the heaviness of the grilled cheese. You really hit it out of the ballpark on this one!\n\nUnfortunately, as much as they loved your meal, the meat bucket team who asked for your vegetables excelled just a little bit more. Turns out, the meat only meat bucket is exactly what they were hoping for all along.\n\nThe other team thanks you for not giving them any vegetables, and takes away the first place prize of $1,000,000. You still walk away with second place and $10,000 each, though, and Jerry is already getting call after call asking him to act in infomercials for kitchen knives after seeing his vegetable cutting skills. Not a bad day overall!"))
+
+    options.append(TreeNode("You were skeptical at first, but the grilled cheese bread pudding is a huge hit. The microwave technique helped everything blend together well in the short time that you have, and helped make the bread the perfect amount of soft.\n\nThe Judges applaud your technique, and announce you the winner before even tasting the food of the others. Excellent job, you have won $1,000,000 dollars and now hold the title of Wild Chef Extraordinaire!"))
+    options.append(TreeNode("Oh no, the classic grilled cheese was just not made for the microwave. You try your best, but half of the grilled cheese end up with the cheese not even melted, whereas the other half end up with bread so soft the judges can't even pick it up. They throw away your meal without even trying it and spit in the trash, commenting that they aren't sure how you made it on the show in the first place.\n\nYou get last place. A rough day, but perhaps they will forget your disgrace and you can try again someday."))
+
+    options.append(TreeNode("Your grilled cheese is going great in the toaster oven, and has gotten the perfect golden brown crust. \"And you thought you could thwart me with your pan blocking!\" You mumble quietly about Jerry. You grab the oven mit to take the grilled cheese out. After all, it could be quick to burn on the broil only setting.\n\nApparently Jerry's vegetable-withdrawal-induced stupor has not affected his hearing, though. He ramps up his marching and the crazy eyes go to a whole new level. Before you know it, Jerry has tackled you. He pins you to the ground screaming \"Vegetables!!!!!,\" as you watch dark smoke begin to billow out of the toaster oven.\n\nBy the time you have managed to get up, your grilled cheese might as well be a piece of coal. You walk out of the competition to avoid having to face the judges with the unrecognizeable lump of food. Better luck next time!"))
+    options.append(TreeNode("Your gut feeling was right - within seconds, Jerry began to march around the kitchen, giving fresh access to the pans. You start cooking your grilled cheese, but the stove ends up having an electric stovetop (who would have thought, on a cooking show???) and so the grilled cheese ends up being a little bit undercooked.\n\n The judges still like it alright, but it's certainly not their best meal of the day, and you end up getting 3rd place, out of 4. No prize for you, but at least you aren't walking away in disgrace!"))
+
+    options.append(TreeNode("Turns out the bbq tofu was an excellent choice. The judges loved how you added a vegan twist to the meat bucket, but still stuck to it's nature somewhat by incorporating the savory bbq flavor and sticking to only tofu in the bucket. Jerry turned out to have an excellent talent for seasoning as well, which less to the tofu being better than anyone could have imagined.\n\nYou get first place, and win $1,000,000. Congratulations!"))
+    options.append(TreeNode("The stir fry tofu bucket did not go over too well. The judges appreciate what you tried to do by \"making it your own\", but they said that your meal really couldn't be considered a meat bucket anymore at all.\n\nYou get 3rd place out of 4 competitors, since they still appreciated your flavors and the effort you put in, but you don't walk away with any prize money for that. Better luck next time!"))
+
+    options.append(TreeNode("The barbeque lentil meatballs turn out pretty well. At the last minute, Jerry gives you the thought of putting them in the bucket as well, since they are still kind of meaty in flavor, and that way it is still reminiscent of the meat bucket idea.\n\nThe judges loved the creativity, and thought the meatballs were very good. It didn't quite beat out another competitor who made a meat bucket with actual meat, though, so you ended up getting 2nd place. That still left you walking home with $10,000 each, though, so not a terrible showing!"))
+    options.append(TreeNode("You thought the chili was a great idea, but the judges did not seem to think so. Jerry tried to give you tips (saying he is a seasoning expert), but you stuck to your \"famous bean chili recipe\" stubbornly.\n\nThe judges gave you quite the verbal thrashing when you served it to them. \"Oh, a famous chili. And I assume you think this is better than the meal options we gave you, huh? And who is it famous with anyway? I've never heard of it and I certainly wouldn't call it famous after tasting it.\n\nYou get fourth place, and are about to decide to never make your chili again, when Jerry tells you that he tried your chili and thought it was delicious. You two become lifelong friends and have a chili cookout every month."))
+
+    options.append(TreeNode("Turns out it was a good choice to follow Jerry outside. He had been right around the corner the whole time, firing up the grill and smoking meats. Where he got the meats, or what type they are, he hasn't given you a clear answer on, although you thought you heard him mumbling somthing about squirrel and goat.\n\nYou weren't sure it would be a good mix, but the judges ended up absolutely loving it. Not only did they give you first place and the $1,000,000 prize, they also gave you and Jerry co-lead-chef positions at an up and coming restaurant in New York City. Congratulations!"))
+    options.append(TreeNode("Oh no, you've made a huge mistake. Turns out Jerry had been grilling some delectable fresh meats outside. Jerry tried to carry his meat inside, but you made him so stressed out that he forgot to bring any plates or buckets outside with him. He grabbed the meat with his hands to try and carry it in, but with the meat fresh off the grill, it ended up being too hot for him, and he dropped all of it on the way in.\n\nWith no time left, you grabbed your brussel sprouts and threw them into the bucket, then served that to the judges. They laughed you out of the building when they saw that you gave them a meat bucket with no meat in it, and you ended up getting last place. Better luck next time!"))
+    options.append(TreeNode("You go for the chicken, but Jerry is devastated. He has a pet chicken (one of those white ones with the mohawk shaped feathers on their heads) and feels a deep connection to them. He is appalled that you would even consider eating chicken.\n\nHe throws away all of his meats in protest and then throws your chicken in the trash. You now have nothing to serve the judges, and you get last place."))
+    options.append(TreeNode("You went for the beef. Excellent choice. Jerry does end up coming back last minute with multiple barbequed meats - squirrel, rabbit, venison, and the like, but beef was not in his selection.\n\nYou toss it in the bucket and the judges rave about how the beef pulled everything together. They love the wide variety of meats and they talk about how much they hate it when people try to add a side dish to a meat bucket - \"why does a perfectly good bucket of meat need something else?\" they rant.\n\nThank goodness you didn't end up making a side! You end up getting 2nd place, with a $10,000 each prize."))
+
+    options.append(TreeNode(""))
+    options.append(TreeNode(""))
+    options.append(TreeNode(""))
+    options.append(TreeNode(""))
+
+    options.append(TreeNode("You decide to serve the soup. As expected, it is not excellent with the ground tuna in it, but your combination of cheddar and gouda has so delighted the judges that they are willing to overlook the gross soup entirely. They still give you first place, and you win $1,000,000. Congratulations!"))
+    options.append(TreeNode("You turn down the soup, and at first all seems well. The judges love the grilled cheese, and they give you first place, with you winning $1,000,000. You are overjoyed, and start walking toward your car outside.\n\nYou have forgotten, though, that you destroyed a man\'s dignity. All Jernigan wanted was one decision on his one day of fame, and you couldn't even give him that! First the grilled cheese, then the pepper jack, and now his soup! He is enraged. Jernigan follows you outside, and robs you of your portion of the winnings at gunpoint. He smashes your brand new car with a baseball bat, and tells you that he will have men watching you for the smallest mis-step for the rest of your life. There are no witnesses, and Jernigan disappears, never to be seen again. You live the rest of your life in fear."))
+
+    options.append(TreeNode("You take the bet, and your gut feeling was right! The judges like your grilled cheese, but say the cheese leaves something to be desired.\n\nYou end up with 2nd place, so you get $10,000 in winnings from the show and $20,000 additional from the bet. Good call!"))
+    options.append(TreeNode("You don't take the bet, and you end up getting 2nd place. The judges like the grilled cheese, but they feel the cheese leaves something to be desired.\n\nYou still win $10,000 for second place, but you could have gotten $20,000 more. Congratulations..?"))
+
+    options.append(TreeNode("You decided to wait for Jernigan, and he did make it back in time! His idea was to serve the frog legs on skewers in small fancy cups.Now your frog legs look very gourmet!\n\nThe judges don't think anything of the small amount of food since it looks so fancy, and you get 1st place, winning $1,000,000. Congratulations!"))
+    options.append(TreeNode("You decided not to wait for Jernigan, and you serve all the frog legs in the one big bucket you have.\n\nThe judges immediately ask why there are so few frog legs in such a big bucket, and you are forced to tell them that you didn't get enough.They are disappointed in your lack of preparation, and you end up with 3rd place (out of 4). You get no prize money. Better luck next time!"))
+
+    options.append(TreeNode("You think the judges are looking at it favorably, and so you decide to speak up. \"Me and Jernigan helped come up with the idea together!,\" you make sure to point out.\n\nUnfortunately, you must have misread the judges. They berate both of you for your disgusting idea of serving whole frogs. \"I don't want my food to be looking at me!,\" they exclaim, and throw your meal away without even trying it.\n\nYou get last place and are talked badly about in the cooking community for years."))
+    options.append(TreeNode("You decide that you aren't so sure you want to associate your name with the frog idea. They tell off Jernigan for serving the whole frogs, saying that they hate the idea, but they taste just the legs and decide they really like the seasoning.\n\nYou get 3rd place, and a fancy restaurant owner who saw you on the show offers you a job as chef at his new restaurant. No wins, but not a terrible outcome overall!"))
+
+    options.append(TreeNode("You forego naming the basket, and the judges like it quite a bit, but are a little disappointed that it has no name. They feel it needed a zesty gourmet name for a fancy entrance. They give you 2nd place and you win $10,000."))
+    options.append(TreeNode("You decide to go with the Mystery Meat Bucket name. The judges think the meat is delicious, and they don't ask any questions about meat type. Suprisingly, they like the surprise that Mystery Meat Bucket provides.\n\nThey give you first place, and you are about to walk away with $1,000,000, when Jernigan announces that he remembers what the meat type label in the pantry said. The meat type is Tiger!\n\nHe announces this discovery on live television, and the cops show up on poaching charges and shut the show down. You do not end up with any winnings."))
+
+    options.append(TreeNode("You serve the meat bucket with chocolate chip cookies, and the judges couldn't be happier with the combination. They congratulate you on your excellent making of a delicious classic, saying they are the best chocolate chip cookies they've ever had.\n\nThey are so excited about the cookies that they don't even ask you what kind of meat you used in the bucket. They give you first place, and you win $1,000,000. Congratulations!"))
+    options.append(TreeNode("You serve the meat bucket with white chocolate chip macadamia cranberry cookies, but the judges find the combination a bit odd.\n\"I would have loved it with just plain white chocolate macadamia cookies, or with chocolate chip, but these cranberries just make my mouth sad,\" one judge comments.\n\nYou end up with 2nd place and go home with $10,000."))
+
+    #--------------------------------------------------------------
+
+    for scenario in options:
+        scenario.value = scenario.value.replace("\n", "<br>")
+
+
+    def createBinaryTree(arr, root, i, size):
+        if (i >= size):
+            return
+        root = arr[i]
+        if (i < len(button_options)):
+            root_buttons = button_options[i]
+        root.add_left_child(createBinaryTree(arr, root, 2 * i + 1, size))
+        root.add_right_child(createBinaryTree(arr, root, 2 * i + 2, size))
+        if (i < len(button_options)):
+            root.left_choice = root_buttons[0]
+            root.right_choice = root_buttons[1]
+        return root
+    root = createBinaryTree(options, None, 0, len(options))
+
+    def calculateTreeHeight(root):
+        if (root == None):
+            return 0
+        if (not root.left_child):
+            return 1
+        return 1 + calculateTreeHeight(root.left_child)
+
+    def traverseLevelOrder(root):
+        height = calculateTreeHeight(root)
+        for x in range(1, height + 1):
+            print("Level " + str(x) + ":")
+            traverseSingleLevel(root, x)
+            print("\n\n")
+
+    def traverseSingleLevel(currentRoot, level):
+        if (level == 1):
+            if (currentRoot == None):
+                print("None")
+            else:
+                print(currentRoot.value)
+        else:
+            traverseSingleLevel(currentRoot.left_child, level - 1)
+            traverseSingleLevel(currentRoot.right_child, level - 1);
+        root = createBinaryTree(options, None, 0, len(options))
+
+        
+    def begin_game():
+        document["scenarios"].html = greeting
+    begin_game()
+</script>
+
+</body>
+</html>

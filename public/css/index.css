@@ -1,0 +1,297 @@
+* {
+    margin: 0;
+    padding: 0; 
+    line-height: 1;
+    font-family: 'Barlow', sans-serif;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+a{
+    color: rgb(9, 56, 14);
+}
+
+
+/*Navigation Bars ***********************************************************/
+
+.mainNav ul{
+    padding-top: 1.5vh;
+    text-align: center;
+}
+
+.mainNav li{
+    display: inline-block;
+    margin: 0 .5vw;
+    font-size: 2.5vh;
+}
+
+/* Home Page ****************************************************************/
+
+
+.linkText {
+    font-size: 2vw;
+    margin: 1.5vh;
+    width: 1.5vw;
+    height: 1.5vw;
+}
+
+.linkText a{
+    color: rgb(9, 56, 14);
+}
+
+.title{
+    color: rgb(9, 56, 14);
+    font-size: 5vw;
+    width: 30vw;
+    display: inline-block;
+    position: relative;
+    top: -5vh; 
+}
+
+.container {
+    display: inline-block;
+    width: 30vw;
+    margin: 10vh 29vw 0 6vw; 
+}
+
+@media (min-width: 480px) {
+    .homeBody{
+        background-image: url("./backgroundHome.jpg");
+    }
+}
+
+@media (max-width: 480px) {
+    .homeBody{
+        background-image: url("./backgroundHomeMobile.jpg");
+    }
+}
+
+
+
+.homeBody {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: bottom; 
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+
+/* Main Pages Frameworks **************************************************/
+.mainTitle{
+    margin: 10vh 0 0 3vw; 
+    font-size: 10vw;
+    color: rgb(9, 56, 14);
+}
+
+.displayBody,
+.mainBody{
+    background-color: #D7D7D7;
+}
+
+/* Projects Page *******************************************************/
+
+#projectDisplay {
+    margin-top: 15vh;
+}
+
+.project{
+    display: block; 
+    margin-bottom: 10vh; 
+    text-align: right; 
+    color: rgb(9, 56, 14);
+}
+
+.project .details{
+    position: absolute; 
+    width: 55vw;
+    height: 20vw;
+    background-color: white; 
+    text-align: left;
+    border-radius: 5%;
+    z-index: 1; 
+    margin-top: 5vw; 
+    margin-left: 4vw; 
+    padding-top: 5vw; 
+    color: rgb(9, 56, 14);
+    font-size: 1.5vw; 
+    padding-left: 5vw; 
+}
+
+.project .details:hover{
+    cursor: pointer;
+}
+
+.project .imageBlock{
+    margin-right: 3vw;
+}
+
+.project .image{
+    width: 40vw;
+    height: 30vw; 
+    border-radius: 5%;
+}
+
+.project .image:hover{
+    cursor: pointer; 
+}
+
+
+/* About Me Page */
+
+#floated{
+    float: left;
+    width: 40vw;
+    height: 45vw;
+}
+
+.aboutMeDisplay{
+    margin-top: 10vh;
+    margin-bottom: 30vh;
+}
+
+.aboutMeDisplay img{
+    border-radius: 100%; 
+    border: 1.75vw solid white; 
+    margin-left: 3vw;
+    height: 32vw;
+    width: 30vw;
+}
+
+.aboutMeDisplay .text{
+    background-color: rgba(255,255,255, .87);
+    margin: 0px 7vw 7vh 7vw;
+    border-radius: 5%;
+}
+
+@media (min-width: 480px) {
+    .aboutMeDisplay p{
+        font-size: 3vh;
+        line-height: 8vh;
+        padding: 1vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .aboutMeDisplay p{
+        font-size: 3vw;
+        line-height: 4vw;
+        padding: 1vw;
+    }
+}
+
+
+/* Game Display and Project Display general */
+
+.projectGameDisplay {
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    text-align: center;
+    padding: 40px;
+    margin-top: 7vh;
+    background-color: rgba(255,255,255, .9);
+    border-radius: 5%;
+    height: 70vh;
+    width: 70vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.content h1 {
+    font-size: 1.8vw;
+}
+
+.content h3 {
+    margin-top: 1.5vh;
+    font-size: 1.2vw;
+}
+
+.content iframe {
+    flex-basis: 504px;
+    width: 50vw;
+}
+
+.content a{
+    color: blue;
+    text-decoration: underline;
+}
+
+.content button{
+    background-color: rgb(9, 56, 14);
+    color: white;
+}
+
+.passwordInput {
+    padding: 10px;
+}
+
+.passwordInput button{
+    padding: 7px 20px;
+    border-radius: 10%;
+    margin-top: 5px; 
+}
+
+/* Text Games (wild chef madness style) */
+.content.sameSize{
+    font-size: 2vw;
+    color: black;
+    text-align: center;
+}
+
+.content .wildChefButton{
+    background-color: rgb(9, 56, 14);
+    color: white;
+    padding: 10px 30px;
+    margin: 40px 60px;
+    border-radius: 10%;
+    display: inline-block;
+}
+
+/* Title with instructions template */
+.instructionsBody h1{
+    font-size: 2.5vh;
+    margin-bottom: 1.5vh;
+}
+
+.instructionsBody h2{
+    text-align: left;
+    font-size: 1.75vh;
+}
+
+.instructionsTitle{
+    margin-bottom: 1vh;
+    text-align: center !important;
+    font-size: 1.75vh;
+}
+
+/*Resume Display Page*************************/
+
+.resumeDisplay img{
+    width: 60vw;
+    height: auto;
+    margin-left: 20vw;
+    margin-top: 10vh;
+    margin-bottom: 30vh;
+}
+
+/*Protected code html pages***********************/
+
+.mycodeHighlight{
+    color: green;
+}
+
+.codeDisplay p{
+    padding: 10px;
+    font-family: "Courier New", Courier, serif;
+    font-size: .9em;
+}
+
+
